@@ -15,6 +15,7 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
         private val DESC = "Desciption"
         private val FIN = "Finished"
         private val DAT = "Due"
+        private val TIME = "Time"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -26,7 +27,8 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
                     "$TITLE TEXT," +
                     "$DESC TEXT," +
                     "$FIN INTEGER DEFAULT 0," +
-                    "$DAT INTEGER DEFAULT 0)"
+                    "$DAT INTEGER DEFAULT 0," +
+                    "$TIME INTEGER DEFAULT 0)"
         
         db?.execSQL(createTable)
     }
@@ -42,6 +44,7 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
         values.put(DESC, todo.description)
         values.put(FIN, booleanToInteger(todo.finished))
         values.put(DAT, todo.date)
+        values.put(TIME, todo.times)
 
         val _success = db.insert(TABLE_NAME, null, values)
         db.close()
@@ -68,6 +71,7 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
         values.put(DESC, todo.description)
         values.put(FIN, booleanToInteger(todo.finished))
         values.put(DAT, todo.date)
+        values.put(TIME, todo.times)
 
         val result = db.update(TABLE_NAME, values, "$ID IN(SELECT $ID FROM $TABLE_NAME LIMIT 1 OFFSET $position)", null) > 0
         db.close()
@@ -85,6 +89,7 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
         var desciption : String
         var finished : Boolean
         var date : Long
+        var time : Long
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -93,7 +98,8 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
                     desciption = cursor.getString(cursor.getColumnIndex(DESC))
                     finished = integerToBoolean(cursor.getInt(cursor.getColumnIndex(FIN)))
                     date = cursor.getLong(cursor.getColumnIndex(DAT))
-                    allTodo.add(Todo(title, desciption, finished, date))
+                    time = cursor.getLong(cursor.getColumnIndex(TIME))
+                    allTodo.add(Todo(title, desciption, finished, date, time))
                 } while (cursor.moveToNext())
             }
         }

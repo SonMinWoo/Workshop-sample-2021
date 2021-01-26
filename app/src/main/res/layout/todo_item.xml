@@ -44,7 +44,6 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:textColor="#4b636e"
-
             android:textSize="12sp"
             android:textStyle="bold" />
 

@@ -7,5 +7,6 @@ class Todo (
     var title : String? = null,
     var description : String? = null,
     var finished : Boolean = false,
-    var date : Long = 0
+    var date : Long = 0,
+    var times : Long = 0
 )

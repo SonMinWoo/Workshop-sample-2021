@@ -60,7 +60,8 @@ class MainActivity : AppCompatActivity() {
             val finishedGroup = dialogView.findViewById<RadioGroup>(R.id.finishedGroup)
             val finishedBtn1 = dialogView.findViewById<RadioButton>(R.id.isFinished)
             var finish = true
-
+            val timeToAdd = dialogView.findViewById<TimePicker>(R.id.toDotime)
+            var timeval = 0
             finishedBtn1.isChecked = true
 
             // Add InputMethodManager for auto keyboard popup
@@ -81,6 +82,10 @@ class MainActivity : AppCompatActivity() {
                 duedateToAdd.date = calendar.timeInMillis
             }
 
+            timeToAdd.setOnTimeChangedListener(TimePicker.OnTimeChangedListener { timePicker, hour, minute ->
+                timeval = hour
+            })
+
 
             // Add positive button and negative button for AlertDialog.
             // Pressing the positive button: Add data to the database and also add them in listview and update.
@@ -93,7 +98,8 @@ class MainActivity : AppCompatActivity() {
                             titleToAdd.text.toString(),
                             desciptionToAdd.text.toString(),
                             finish,
-                            duedateToAdd.date
+                            duedateToAdd.date,
+                            timeval.toLong()
                         )
                         dbHandler!!.addTodo(todo)
 

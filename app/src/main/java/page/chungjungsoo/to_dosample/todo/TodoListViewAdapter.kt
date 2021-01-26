@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import org.w3c.dom.Text
 import page.chungjungsoo.to_dosample.R
 import java.sql.Date
 import java.text.SimpleDateFormat
@@ -25,6 +26,7 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
         val delete : Button = view.findViewById(R.id.delBtn)
         val finish : TextView = view.findViewById(R.id.finished)
         val duedate : TextView = view.findViewById(R.id.dueDate)
+//        val duetime : TextView = view.findViewById(R.id.dueTime)
 
         db = TodoDatabaseHelper(this.context)
 
@@ -40,6 +42,7 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
             finish.text = "Not finished.."
         }
         duedate.text = convertLongToTime(todo.date)
+//        duetime.text = todo.times.toString()
 
         // OnClick Listener for edit button on every ListView items
         edit.setOnClickListener {
@@ -52,6 +55,8 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
             val radioBtn1 = dialogView.findViewById<RadioButton>(R.id.isFinished)
             val radioBtn2 = dialogView.findViewById<RadioButton>(R.id.notFinished)
             val dateToAdd = dialogView.findViewById<CalendarView>(R.id.todoDuedate)
+            val timeToAdd = dialogView.findViewById<TimePicker>(R.id.toDotime)
+            var timeval = 0
 
             titleToAdd.setText(todo.title)
             desciptionToAdd.setText(todo.description)
@@ -68,9 +73,10 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
                 // set this date as calendar view selected date
                 dateToAdd.date = calendar.timeInMillis
             }
-
             dateToAdd.date = todo.date
-
+            timeToAdd.setOnTimeChangedListener(TimePicker.OnTimeChangedListener { timePicker, hour, minute ->
+                timeval = hour
+            })
 
             titleToAdd.requestFocus()
             ime.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
@@ -81,7 +87,8 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
                         titleToAdd.text.toString(),
                         desciptionToAdd.text.toString(),
                         radioBtn1.isChecked,
-                        dateToAdd.date
+                        dateToAdd.date,
+                        timeval.toLong()
                     )
 
                     val result = db.updateTodo(tmp, position)
@@ -90,6 +97,7 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
                         todo.description = desciptionToAdd.text.toString()
                         todo.finished = radioBtn1.isChecked
                         todo.date = dateToAdd.date
+                        todo.times = timeval.toLong()
                         notifyDataSetChanged()
                         ime.hideSoftInputFromWindow(titleToAdd.windowToken, 0)
                     }
