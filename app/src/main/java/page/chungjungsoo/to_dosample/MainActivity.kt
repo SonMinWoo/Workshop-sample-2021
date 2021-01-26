@@ -11,14 +11,14 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.WindowInsetsController
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import page.chungjungsoo.to_dosample.todo.Todo
 import page.chungjungsoo.to_dosample.todo.TodoDatabaseHelper
 import page.chungjungsoo.to_dosample.todo.TodoListViewAdapter
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     var dbHandler : TodoDatabaseHelper? = null
@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
-
         // Add database helper and load data from database
         dbHandler = TodoDatabaseHelper(this)
         var todolist: MutableList<Todo> = dbHandler!!.getAll()
@@ -57,6 +56,12 @@ class MainActivity : AppCompatActivity() {
             // Get elements from custom dialog layout (add_todo_dialog.xml)
             val titleToAdd = dialogView.findViewById<EditText>(R.id.todoTitle)
             val desciptionToAdd = dialogView.findViewById<EditText>(R.id.todoDescription)
+            val duedateToAdd = dialogView.findViewById<CalendarView>(R.id.todoDuedate)
+            val finishedGroup = dialogView.findViewById<RadioGroup>(R.id.finishedGroup)
+            val finishedBtn1 = dialogView.findViewById<RadioButton>(R.id.isFinished)
+            var finish = true
+
+            finishedBtn1.isChecked = true
 
             // Add InputMethodManager for auto keyboard popup
             val ime = applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -66,6 +71,15 @@ class MainActivity : AppCompatActivity() {
 
             // Show keyboard when AlertDialog is inflated
             ime.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+
+            duedateToAdd.setOnDateChangeListener { view, year, month, dayOfMonth ->
+                // set the calendar date as calendar view selected date
+                val calendar = Calendar.getInstance()
+                calendar.set(year,month,dayOfMonth)
+
+                // set this date as calendar view selected date
+                duedateToAdd.date = calendar.timeInMillis
+            }
 
 
             // Add positive button and negative button for AlertDialog.
@@ -78,7 +92,8 @@ class MainActivity : AppCompatActivity() {
                         val todo = Todo(
                             titleToAdd.text.toString(),
                             desciptionToAdd.text.toString(),
-                            false
+                            finish,
+                            duedateToAdd.date
                         )
                         dbHandler!!.addTodo(todo)
 
@@ -122,6 +137,16 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
             })
+
+            finishedGroup.setOnCheckedChangeListener { _, checkboxId ->
+                when(checkboxId) {
+                    R.id.isFinished -> finish = true
+                    R.id.notFinished -> finish = false
+                }
+            }
+
         }
+
+
     }
 }

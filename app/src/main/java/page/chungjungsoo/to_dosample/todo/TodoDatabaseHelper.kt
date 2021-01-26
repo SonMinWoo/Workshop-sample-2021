@@ -14,17 +14,20 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
         private val TITLE = "Title"
         private val DESC = "Desciption"
         private val FIN = "Finished"
+        private val DAT = "Due"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
+        db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME");
         // Create Database
         val createTable =
             "CREATE TABLE $TABLE_NAME" +
                     "($ID INTEGER PRIMARY KEY," +
                     "$TITLE TEXT," +
                     "$DESC TEXT," +
-                    "$FIN INTEGER DEFAULT 0)"
-
+                    "$FIN INTEGER DEFAULT 0," +
+                    "$DAT INTEGER DEFAULT 0)"
+        
         db?.execSQL(createTable)
     }
 
@@ -38,6 +41,7 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
         values.put(TITLE, todo.title)
         values.put(DESC, todo.description)
         values.put(FIN, booleanToInteger(todo.finished))
+        values.put(DAT, todo.date)
 
         val _success = db.insert(TABLE_NAME, null, values)
         db.close()
@@ -63,6 +67,7 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
         values.put(TITLE, todo.title)
         values.put(DESC, todo.description)
         values.put(FIN, booleanToInteger(todo.finished))
+        values.put(DAT, todo.date)
 
         val result = db.update(TABLE_NAME, values, "$ID IN(SELECT $ID FROM $TABLE_NAME LIMIT 1 OFFSET $position)", null) > 0
         db.close()
@@ -79,6 +84,7 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
         var title : String
         var desciption : String
         var finished : Boolean
+        var date : Long
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -86,8 +92,8 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
                     title = cursor.getString(cursor.getColumnIndex(TITLE))
                     desciption = cursor.getString(cursor.getColumnIndex(DESC))
                     finished = integerToBoolean(cursor.getInt(cursor.getColumnIndex(FIN)))
-
-                    allTodo.add(Todo(title, desciption, finished))
+                    date = cursor.getLong(cursor.getColumnIndex(DAT))
+                    allTodo.add(Todo(title, desciption, finished, date))
                 } while (cursor.moveToNext())
             }
         }
@@ -112,4 +118,8 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
         // Vice Versa
         return int == 1
     }
+
+
 }
+
+

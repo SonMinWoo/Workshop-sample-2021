@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import page.chungjungsoo.to_dosample.R
+import java.sql.Date
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class TodoListViewAdapter (context: Context, var resource: Int, var items: MutableList<Todo> ) : ArrayAdapter<Todo>(context, resource, items){
@@ -20,6 +23,8 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
         val description : TextView = view.findViewById(R.id.listDesciption)
         val edit : Button = view.findViewById(R.id.editBtn)
         val delete : Button = view.findViewById(R.id.delBtn)
+        val finish : TextView = view.findViewById(R.id.finished)
+        val duedate : TextView = view.findViewById(R.id.dueDate)
 
         db = TodoDatabaseHelper(this.context)
 
@@ -29,6 +34,12 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
         // Load title and description to single ListView item
         title.text = todo.title
         description.text = todo.description
+        if(todo.finished) {
+            finish.text = "Done!"
+        } else {
+            finish.text = "Not finished.."
+        }
+        duedate.text = convertLongToTime(todo.date)
 
         // OnClick Listener for edit button on every ListView items
         edit.setOnClickListener {
@@ -38,9 +49,28 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
             val titleToAdd = dialogView.findViewById<EditText>(R.id.todoTitle)
             val desciptionToAdd = dialogView.findViewById<EditText>(R.id.todoDescription)
             val ime = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val radioBtn1 = dialogView.findViewById<RadioButton>(R.id.isFinished)
+            val radioBtn2 = dialogView.findViewById<RadioButton>(R.id.notFinished)
+            val dateToAdd = dialogView.findViewById<CalendarView>(R.id.todoDuedate)
 
             titleToAdd.setText(todo.title)
             desciptionToAdd.setText(todo.description)
+            if(todo.finished) {
+                radioBtn1.isChecked = true
+            } else {
+                radioBtn2.isChecked = true
+            }
+            dateToAdd.setOnDateChangeListener { view, year, month, dayOfMonth ->
+                // set the calendar date as calendar view selected date
+                val calendar = Calendar.getInstance()
+                calendar.set(year,month,dayOfMonth)
+
+                // set this date as calendar view selected date
+                dateToAdd.date = calendar.timeInMillis
+            }
+
+            dateToAdd.date = todo.date
+
 
             titleToAdd.requestFocus()
             ime.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
@@ -50,13 +80,16 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
                     val tmp = Todo(
                         titleToAdd.text.toString(),
                         desciptionToAdd.text.toString(),
-                        false
+                        radioBtn1.isChecked,
+                        dateToAdd.date
                     )
 
                     val result = db.updateTodo(tmp, position)
                     if (result) {
                         todo.title = titleToAdd.text.toString()
                         todo.description = desciptionToAdd.text.toString()
+                        todo.finished = radioBtn1.isChecked
+                        todo.date = dateToAdd.date
                         notifyDataSetChanged()
                         ime.hideSoftInputFromWindow(titleToAdd.windowToken, 0)
                     }
@@ -85,6 +118,17 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
             }
         }
 
+
         return view
     }
+    fun convertLongToTime (time: Long): String {
+        try {
+            val sdf = SimpleDateFormat("MM/dd/yyyy")
+            val netDate = Date(time)
+            return sdf.format(netDate)
+        } catch (e: Exception) {
+            return e.toString()
+        }
+    }
+
 }
