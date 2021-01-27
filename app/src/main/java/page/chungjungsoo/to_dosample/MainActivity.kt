@@ -2,6 +2,7 @@ package page.chungjungsoo.to_dosample
 
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -46,6 +47,10 @@ class MainActivity : AppCompatActivity() {
         // Put data with custom listview adapter
         todoList.adapter = TodoListViewAdapter(this, R.layout.todo_item, todolist)
         todoList.emptyView = helpText
+
+        //btncolor
+        addBtn.setBackgroundColor(Color.RED)
+        addBtn.setTextColor(Color.WHITE)
 
         // Onclick listener for add button
         addBtn.setOnClickListener {

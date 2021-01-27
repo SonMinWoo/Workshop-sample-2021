@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center_vertical"
-        android:layout_weight="8">
+        android:layout_weight="7">
 
         <TextView
             android:id="@+id/listTitle"
@@ -17,14 +17,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:textColor="#4b636e"
-            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/listDesciption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp" />
 
@@ -43,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:textColor="#4b636e"
+            android:textColor="@color/white"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -53,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:textColor="#4b636e"
+            android:textColor="@color/white"
             android:textSize="12sp"
             android:textStyle="bold" />
 

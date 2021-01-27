@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:background="@color/black">
 
     <TextView
         android:id="@+id/homeTitle"
@@ -12,7 +12,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginStart="20dp"
         android:text="@string/home_title"
-        android:textColor="#000000"
+        android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="30sp" />
 
@@ -23,7 +23,8 @@
         android:text="@string/help"
         android:layout_below="@+id/homeTitle"
         android:layout_marginTop="70dp"
-        android:layout_marginStart="20dp"/>
+        android:layout_marginStart="20dp"
+        android:textColor="@color/white"/>
 
     <ListView
         android:id="@+id/todoList"
@@ -32,7 +33,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:textColor="@color/white"/>
 
     <Button
         android:id="@+id/addBtn"
@@ -43,7 +45,8 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/radius"
         android:text="@string/plus"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textColor="@color/white"/>
 
 
 </RelativeLayout>

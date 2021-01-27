@@ -9,7 +9,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/black">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -23,14 +24,16 @@
                     android:layout_gravity="start"
                     android:layout_margin="15dp"
                     android:text="@string/add_todo"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:textColor="@color/white"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="15dp"
-                    android:text="@string/title" />
+                    android:text="@string/title"
+                    android:textColor="@color/white"/>
 
                 <EditText
                     android:id="@+id/todoTitle"
@@ -39,14 +42,16 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp" />
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/white"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="15dp"
-                    android:text="@string/description" />
+                    android:text="@string/description"
+                    android:textColor="@color/white"/>
 
                 <EditText
                     android:id="@+id/todoDescription"
@@ -55,14 +60,16 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp" />
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/white"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
-                    android:text="@string/due_date" />
+                    android:text="@string/due_date"
+                    android:textColor="@color/white"/>
 
                 <CalendarView
                     android:id="@+id/todoDuedate"
@@ -70,14 +77,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp" />
+                    android:layout_marginEnd="20dp"
+                    android:theme="@style/CalenderViewCustom"
+                    android:dateTextAppearance="@style/CalenderViewDateCustomText"
+                    android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="15dp"
-                    android:text="Due Time" />
+                    android:text="Due Time"
+                    android:textColor="@color/white"/>
 
                 <TimePicker
                     android:id="@+id/toDotime"
@@ -87,20 +98,24 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
-                    android:timePickerMode="spinner"/>
+                    android:timePickerMode="spinner"
+                    android:background="@color/white"
+                    android:textColorPrimary="#ff0000"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
-                    android:text="@string/finished" />
+                    android:text="@string/finished"
+                    android:textColor="@color/white"/>
 
                 <RadioGroup
                     android:id="@+id/finishedGroup"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:textColor="@color/white">
 
                     <RadioButton
                         android:id="@+id/isFinished"
@@ -108,7 +123,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_weight="1"
-                        android:text="완료" />
+                        android:text="완료"
+                        android:textColor="@color/white"/>
 
                     <RadioButton
                         android:id="@+id/notFinished"
@@ -116,7 +132,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_weight="1"
-                        android:text="미완료" />
+                        android:text="미완료"
+                        android:textColor="@color/white"/>
                 </RadioGroup>
 
 

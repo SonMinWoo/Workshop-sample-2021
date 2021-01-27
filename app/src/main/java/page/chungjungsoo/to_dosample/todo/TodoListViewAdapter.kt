@@ -2,11 +2,13 @@ package page.chungjungsoo.to_dosample.todo
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import kotlinx.android.synthetic.main.activity_main.*
 import org.w3c.dom.Text
 import page.chungjungsoo.to_dosample.R
 import java.sql.Date
@@ -28,6 +30,12 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
         val duedate : TextView = view.findViewById(R.id.dueDate)
 //        val duetime : TextView = view.findViewById(R.id.dueTime)
 
+        //btncolor
+        edit.setBackgroundColor(Color.RED)
+        edit.setTextColor(Color.WHITE)
+        delete.setBackgroundColor(Color.RED)
+        delete.setTextColor(Color.WHITE)
+
         db = TodoDatabaseHelper(this.context)
 
         // Get to-do item
@@ -38,8 +46,10 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
         description.text = todo.description
         if(todo.finished) {
             finish.text = "Done!"
+            finish.setTextColor(Color.GREEN)
         } else {
             finish.text = "Not finished.."
+            finish.setTextColor(Color.RED)
         }
         duedate.text = convertLongToTime(todo.date)
 //        duetime.text = todo.times.toString()
@@ -138,5 +148,7 @@ class TodoListViewAdapter (context: Context, var resource: Int, var items: Mutab
             return e.toString()
         }
     }
+
+
 
 }
